@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <pthread.h>
+
+void *readAndWriteFile1(void*);
+void *readAndWriteFile2(void*);
+
+void main(){
+	pthread_t thread1, thread2;
+	
+	pthread_create(&thread1, NULL, readAndWriteFile1, NULL);
+	pthread_join(thread1, NULL);	
+
+	pthread_create(&thread2, NULL, readAndWriteFile2, NULL);
+	pthread_join(thread2, NULL);	
+
+	return;
+}
+
+void *readAndWriteFile1(void *arg){
+	printf("thread1\n");
+	FILE *input, *output;
+	input = fopen("firstfile.txt", "r");
+	output = fopen("secondfile.txt", "w");
+
+	char c, words[1000];
+	int i=0;
+
+	while(!feof(input)){
+		c = fgetc(input);
+		words[i] = c; i++;
+	}
+	words[i-1] = '\0';
+
+	fprintf(output, "%s", words);
+	
+	fclose(input);
+	fclose(output);
+}
+
+void *readAndWriteFile2(void *arg){
+	printf("thread2\n");
+	FILE *input, *output;
+	input = fopen("secondfile.txt", "r");
+	output = fopen("thirdfile.txt", "w");
+
+	char c, words[1000];
+	int i=0;
+
+	while(!feof(input)){
+		c = fgetc(input);
+		words[i] = c; i++;
+	}
+	words[i-1] = '\0';
+
+	fprintf(output, "%s", words);
+	
+	fclose(input);
+	fclose(output);
+}
