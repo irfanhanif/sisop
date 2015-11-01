@@ -11,7 +11,7 @@ void main(){
 	printf("Masukkan jumlah N: ");
 	scanf("%d", &number);
 
-	int *pointer = &number;
+	int *pointer = &number; //melakukan passing argumen
 
 	pthread_t thread;
 	pthread_create(&thread, NULL, numberOfPrime, (void*) pointer);
@@ -21,14 +21,15 @@ void main(){
 }
 
 void *numberOfPrime(void* arg){
+//passing argumen menggunakan typecasting dari int* -> void* -> int*
 	int *number = (int*) arg;
 	pthread_t thread;
 
+//sintaks ini untuk mengakali pengecekan bilangan prima sebelum berkurang duluan
 	int check = *number;
-
-	//printf("number: %d\n", *number);
-	//printf("number: %d\n", *number);
 	
+//melakukan rekursif untuk setiap cek bilangan prima
+//agar pengecekan setiap angka berjalan bersamaan
 	if(*number>=1){
 		*number = *number-1;
 		pthread_create(&thread, NULL, numberOfPrime, (void*)number);
@@ -37,6 +38,8 @@ void *numberOfPrime(void* arg){
 	}
 }
 
+//Fungsi untuk mengetahui sebuah bilangan prima atau bukan
+//print setiap bilangan opsional untuk cek apakah multithreading berhasil
 void primeChecker(int number){
 	int i, flag=0;
 

@@ -5,7 +5,7 @@ void *numberOfPrime(void*);
 void primeChecker(int);
 
 int counter = 0;
-
+git 
 void main(){
 	int number;
 	printf("Masukkan jumlah N: ");
@@ -37,6 +37,8 @@ void *numberOfPrime(void* arg){
 	}
 }
 
+//Fungsi untuk mengetahui sebuah bilangan prima atau bukan
+//print setiap bilangan opsional untuk cek apakah multithreading berhasil
 void primeChecker(int number){
 	int i, flag=0;
 
