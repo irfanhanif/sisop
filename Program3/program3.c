@@ -53,7 +53,7 @@ void *function2(void *arg){
 		}
 	}
 
-	printf("%ld", fsize);
+	//printf("%ld", fsize);
 
 	char *string = malloc(fsize + 1);
 	fread(string, fsize, 1, file2);
