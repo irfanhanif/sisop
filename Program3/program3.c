@@ -31,15 +31,27 @@ void *function1(void *arg){
 	fread(string, fsize, 1, file1);
 
 	fputs(string, file2);
+	fclose(file2);
 }
 
 void *function2(void *arg){
 	long fsize = 0;
-	do{
+	/*do{
+		file2 = fopen("secondfile.txt", "r+");
 		fseek(file2, 0, SEEK_END);
 		fsize = ftell(file1);
 		fseek(file2, 0, SEEK_SET);
-	} while(fsize == 0);
+	} while(fsize == 0);*/
+
+	while(1){
+		fseek(file2, 0, SEEK_END);
+		fsize = ftell(file1);
+		fseek(file2, 0, SEEK_SET);
+		if(fsize != 0){
+			file2 = fopen("secondfile.txt", "r+");
+			break;
+		}
+	}
 
 	printf("%ld", fsize);
 
