@@ -1,7 +1,3 @@
-nama: irfan hanif
-ttl: jakarta, 16 agustus 1996
-umur: 19 tahun
-sekolah: Institut Teknologi Sepuluh Nopember
-jurusan: S1 Teknik Informatika
-Angkatan: 2014
-asal: bekasi
+Irfan Hanif
+5114100177 C1E
+Teknik Informatika ITS!

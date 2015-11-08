@@ -1,61 +1,52 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <pthread.h>
 
-void *readAndWriteFile1(void*);
-void *readAndWriteFile2(void*);
+FILE *file1, *file2, *file3;
 
-void main(){
+void *function1(void*);
+void *function2(void*);
+
+int main(){
+	file1 = fopen("firstfile.txt", "r");
+	file2 = fopen("secondfile.txt", "r+");
+	file3 = fopen("thirdfile.txt", "w");
+
 	pthread_t thread1, thread2;
-	
-	pthread_create(&thread1, NULL, readAndWriteFile1, NULL);
-	pthread_join(thread1, NULL);	
 
-	pthread_create(&thread2, NULL, readAndWriteFile2, NULL);
-	pthread_join(thread2, NULL);	
-	
-	printf("\nCOMPLETED\n");
+	pthread_create(&thread1, NULL, function1, NULL);
+	pthread_create(&thread2, NULL, function2, NULL);
 
-	return;
+	pthread_join(thread1, NULL);
+	pthread_join(thread2, NULL);
+	return 0;
 }
 
-void *readAndWriteFile1(void *arg){
-	//printf("thread1\n");
-	FILE *input, *output;
-	input = fopen("firstfile.txt", "r");
-	output = fopen("secondfile.txt", "w");
+void *function1(void *arg){
+	fseek(file1, 0, SEEK_END);
+	long fsize = ftell(file1);
+	fseek(file1, 0, SEEK_SET);
 
-	char c, words[1000];
-	int i=0;
+	char *string = malloc(fsize + 1);
+	fread(string, fsize, 1, file1);
 
-	while(!feof(input)){
-		c = fgetc(input);
-		words[i] = c; i++;
-	}
-	words[i-1] = '\0';
-
-	fprintf(output, "%s", words);
-	
-	fclose(input);
-	fclose(output);
+	fputs(string, file2);
 }
 
-void *readAndWriteFile2(void *arg){
-	//printf("thread2\n");
-	FILE *input, *output;
-	input = fopen("secondfile.txt", "r");
-	output = fopen("thirdfile.txt", "w");
+void *function2(void *arg){
+	long fsize = 0;
+	do{
+		fseek(file2, 0, SEEK_END);
+		fsize = ftell(file1);
+		fseek(file2, 0, SEEK_SET);
+	} while(fsize == 0);
 
-	char c, words[1000];
-	int i=0;
+	printf("%ld", fsize);
 
-	while(!feof(input)){
-		c = fgetc(input);
-		words[i] = c; i++;
-	}
-	words[i-1] = '\0';
+	char *string = malloc(fsize + 1);
+	fread(string, fsize, 1, file2);
 
-	fprintf(output, "%s", words);
-	
-	fclose(input);
-	fclose(output);
+	puts(string);
+
+	fprintf(file3, "%s", string);
 }
