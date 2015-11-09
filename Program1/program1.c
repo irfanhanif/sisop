@@ -23,7 +23,7 @@ void main(){
 		if(input[0] == 'q') break;
 		//printf("%s\n", input);
 
-		char test[5][100];
+		char *test[5], *x = "ls";
 		int i = 0;
 
 		memset(test, '\0', sizeof(test));
@@ -31,18 +31,14 @@ void main(){
 		char *token = strtok(input, " ");
 
 		while(token != NULL){
-			strcpy(test[i], token);
+			test[i] = token;
 			i++;
 			token = strtok(NULL, " ");
 		}
 
 		pid = fork();
 		if(pid == 0){
-			if(i>1)
-				execlp(test[0], test[0], test[1], (char*) NULL);
-			else{
-				execlp(test[0], test[0], (char*) NULL);
-			}
+			execvp(test[0], test);
 			//temp = getpid();
 		}
 		//waitpid(temp);
