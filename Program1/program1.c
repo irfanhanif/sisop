@@ -12,23 +12,23 @@ void main(){
 	signal(SIGINT, sigHandler);
 	signal(SIGTSTP, sigHandler);
 
-	pid_t pid, temp;
+	pid_t pid;
 
-	char input[10];
+	int i; 
+	char *token, *test[5], input[10], *x = "cd";
+
 	while(1){
 		memset(input, '\0', sizeof(input));
 		printf("Masukkan perintah: ");
 		scanf("%[^\n]", input);
 		getchar();
+		
 		if(input[0] == 'q') break;
-		//printf("%s\n", input);
 
-		char *test[5], *x = "ls";
-		int i = 0;
+		i = 0;
 
 		memset(test, '\0', sizeof(test));
-
-		char *token = strtok(input, " ");
+		token = strtok(input, " ");
 
 		while(token != NULL){
 			test[i] = token;
@@ -36,12 +36,15 @@ void main(){
 			token = strtok(NULL, " ");
 		}
 
-		pid = fork();
-		if(pid == 0){
-			execvp(test[0], test);
-			//temp = getpid();
+		if(strcmp(test[0], x) == 0){
+			chdir(test[i-1]);
 		}
-		//waitpid(temp);
-		wait();
+		else{
+			pid = fork();
+			if(pid == 0){
+				execvp(test[0], test);
+			}
+			wait();
+		}
 	}
 }
