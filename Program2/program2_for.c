@@ -8,6 +8,7 @@ int counter;
 
 int main(){
 	int number, i, j, *temp;
+	int x[i];
 
 	counter = 0;
 
@@ -15,11 +16,15 @@ int main(){
 	scanf("%d", &number);
 
 	pthread_t *thread = (pthread_t*)malloc(number * sizeof(pthread_t));
-	for(i=0; i < number;i++)
-		pthread_create(&thread[i], NULL, findPrime, NULL);
-	
-	for(j=0; j < number; j++)
+	for(i=1; i <= number;i++){
+		x[i] = i;
+		pthread_create(&thread[i], NULL, findPrime, &x[i]);
+	}
+
+	for(i=1; i<=number; i++)
 		pthread_join(thread[i], NULL);
+
+	//pthread_exit(NULL);
 
 	printf("Jumlah prime number: %d\n", counter);
 
@@ -28,22 +33,19 @@ int main(){
 
 void *findPrime(void *args){
 	int i, flag=0;
-	static int check = 0;
-	++check;
-	//printf("%d", *args);
 
-	//int number = *(int*) args;
-	//printf("%dA", *number);
+	int number = *((int*) args);
 
-	for(i=1; i<= check; i++){
-		if(check % i == 0)
+	if(number == 1) return;
+	for(i=1; i<= number; i++){
+		if(number % i == 0)
 			flag++;
 	}
 	if(flag > 2){
-		//printf("%d: not prime\n", check);
+		//printf("%d: not prime\n", number);
 	}
 	else{
-		//printf("%d: prime\n", check);
+		//printf("%d: prime\n", number);
 		counter++;
 	}
 	return;
