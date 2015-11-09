@@ -15,7 +15,7 @@ void main(){
 	pid_t pid;
 
 	int i; 
-	char *token, *test[5], input[10], *x = "cd";
+	char *token, *test[5], input[10], *x = "cd", *dan = "&";
 
 	while(1){
 		memset(input, '\0', sizeof(input));
@@ -40,11 +40,20 @@ void main(){
 			chdir(test[i-1]);
 		}
 		else{
-			pid = fork();
-			if(pid == 0){
-				execvp(test[0], test);
+			if(strcmp(test[i-1], dan) == 0){
+				test[i-1] = NULL;
+				pid = fork();
+				if(pid == 0){
+					execvp(test[0], test);
+				}
 			}
-			wait();
+			else{
+				pid = fork();
+				if(pid == 0){
+					execvp(test[0], test);
+				}
+				wait();
+			}
 		}
 	}
 }
