@@ -21,9 +21,10 @@ void main(){
 		memset(input, '\0', sizeof(input));
 		printf("Masukkan perintah: ");
 		scanf("%[^\n]", input);
+		if(EOF) return;
 		getchar();
 		
-		if(input[0] == 'q') break;
+		//if(input[0] == '\04') break;
 
 		i = 0;
 
