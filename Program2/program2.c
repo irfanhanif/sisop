@@ -43,11 +43,11 @@ void *numberOfPrime(void* arg){
 void primeChecker(int number){
 	int i, flag=0;
 
-	if(number == 1){
+	/*if(number == 1){
 		printf("%d: prime\n", number);
 		counter++;
 		return;	
-	}	
+	}*/	
 	
 	for(i=1; i<=number; i++)
 		if(number%i == 0)
