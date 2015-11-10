@@ -35,7 +35,6 @@ void main(){
 
 		memset(test, '\0', sizeof(test));
 		token = strtok(input, " ");
-		substr = strstr(input, " ");
 
 		while(token != NULL){
 			test[i] = token;
